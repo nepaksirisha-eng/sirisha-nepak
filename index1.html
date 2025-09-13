@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Education</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #f4f8fb;
+      color: #333;
+    }
+
+    /* Navbar */
+    header {
+      background: #4facfe;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero h2 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: auto;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      background: #fff;
+      color: #4facfe;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #e0f2ff;
+    }
+
+    /* Features Section */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 50px 40px;
+      text-align: center;
+    }
+
+    .feature-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-card h3 {
+      color: #4facfe;
+      margin-bottom: 10px;
+      text-decoration: none;
+
+    }
+
+    /* Courses Section */
+    .courses {
+      padding: 50px 40px;
+      background: #f9fbff;
+    }
+
+    .courses h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .course-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .course-card:hover {
+      transform: scale(1.03);
+    }
+
+    .course-card h3 {
+      color: #333;
+    }
+
+    .course-card p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Footer */
+    footer {
+      background: #4facfe;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    a{
+      text-decoration: none;
+      color:#333;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Smart Education</h1>
+    <nav>
+      <a href="#"><a href="index11.html">About us</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h2>Welcome to Smart Education</h2>
+    <p>Empowering students with innovative digital learning tools, interactive courses, and smart solutions for a brighter future.</p>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="feature-card">
+      <h3><a href="index21.html">📚 Online Courses</a></h3>
+      <p>Learn anytime, anywhere with access to a wide range of digital courses.</p>
+    </div>
+    <div class="feature-card">
+      <h3><a href="index3.html">🎯 Personalized Learning</a></h3>
+      <p>Customized lessons designed to suit your pace and learning style.</p>
+    </div>
+    <div class="feature-card">
+      <h3><a href="index 4.html">🌐 Global Community</a></h3>
+      <p>Connect with learners and educators worldwide in real-time.</p>
+    </div>
+  </section>
+
+  <!-- Courses -->
+  <section class="courses">
+    <h2>Our Popular Courses</h2>
+    <div class="course-grid">
+      <div class="course-card">
+        <h3>Web Development</h3>
+        <p>Master HTML, CSS, JavaScript, and build modern websites.</p>
+      </div>
+      <div class="course-card">
+        <h3>Data Science</h3>
+        <p>Learn data analysis, Python, and AI concepts for future careers.</p>
+      </div>
+      <div class="course-card">
+        <h3>Digital Marketing</h3>
+        <p>Grow businesses online with SEO, social media, and ad strategies.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Smart Education. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Example interaction
+    document.querySelector(".btn").addEventListener("click", () => {
+      alert("Welcome to Smart Education! 🚀");
+    });
+  </script>
+</body>
+</html>

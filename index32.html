@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fun Coding Courses | C, C++, Java, Python, DSA</title>
+  <style>
+    :root {
+      --primary-bg: #f0f8ff;
+      --academy-blue: #3a6ea5;
+      --academy-yellow: #ffd700;
+      --academy-red: #ff6b6b;
+      --academy-green: #8cd93a;
+      --academy-purple: #a78bfa;
+      --text-dark: #2d3748;
+      --text-light: #edf2f7;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: var(--primary-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      background: linear-gradient(135deg, var(--academy-blue), #659dbd);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      animation: gradient 15s ease infinite;
+      background-size: 200% 200%;
+    }
+    @keyframes gradient {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+    .course-card {
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .course-header {
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+    .course-c {
+      background: var(--academy-blue);
+    }
+    .course-cpp {
+      background: var(--academy-purple);
+    }
+    .course-java {
+      background: var(--academy-red);
+    }
+    .course-python {
+      background: var(--academy-green);
+    }
+    .course-dsa {
+      background: var(--academy-yellow);
+      color: var(--text-dark);
+    }
+    .course-body {
+      padding: 1.5rem;
+    }
+    .course-body p {
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+    .flowchart {
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .flowchart svg {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+    }
+    .treasure-hunt {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      position: relative;
+    }
+    .treasure-hunt h3 {
+      margin-bottom: 0.5rem;
+      color: var(--academy-yellow);
+      text-align: center;
+    }
+    .treasure-clue {
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+    .treasure-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .treasure-btn {
+      background: var(--academy-yellow);
+      color: var(--text-dark);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .treasure-btn:hover {
+      background: #ffcc00;
+    }
+    .treasure-result {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      text-align: center;
+      min-height: 24px;
+    }
+    .treasure-found {
+      color: green;
+    }
+    .treasure-not-found {
+      color: #666;
+    }
+    .hidden-treasure {
+      display: none;
+      background: #fffacd;
+      border: 2px dashed var(--academy-yellow);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .animate {
+      transition: all 0.3s ease;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--text-dark);
+      color: white;
+    }
+    @media (max-width: 768px) {
+      .course-list {
+        grid-template-columns: 1fr;
+      }
+    }
+    .banner-img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fun Learning in Code Academy</h1>
+    <div class="subtitle">Discover C, C++, Java, Python, DSA—Animate, Learn, & Hunt Treasures!</div>
+  </header>
+
+  <div class="course-list">
+    <div class="course-card animate">
+      <div class="course-header course-c">C Programming</div>
+      <img class="banner-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200'%3E%3Crect width='800' height='200' fill='%233a6ea5'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='white' text-anchor='middle' dy='0.35em'%3EC%3C/text%3E%3C/svg%3E" alt="C">
+      <div class="course-body">
+        <p>Master pointers, functions, and memory management with real-world analogies and storytelling.</p>
+        <div class="flowchart">
+          <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="60" height="40" rx="5" fill="white" stroke="#3a6ea5" stroke-width="2"/>
+            <text x="40" y="35" font-size="14" text-anchor="middle" fill="#3a6ea5">Start</text>
+            <path d="M 70,30 L 110,30" fill="none" stroke="#3a6ea5" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <rect x="110" y="10" width="60" height="40" rx="5" fill="white" stroke="#3a6ea5" stroke-width="2"/>
+            <text x="140" y="35" font-size="14" text-anchor="middle" fill="#3a6ea5">Input</text>
+            <path d="M 170,30 L 210,30" fill="none" stroke="#3a6ea5" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <rect x="210" y="10" width="60" height="40" rx="5" fill="white" stroke="#3a6ea5" stroke-width="2"/>
+            <text x="240" y="35" font-size="14" text-anchor="middle" fill="#3a6ea5">Output</text>
+          </svg>
+        </div>
+        <div class="treasure-hunt">
+          <h3>Treasure Hunt: Spot the Bug!</h3>
+          <p class="treasure-clue">Enter a variable name (e.g., "count") to find a hidden bug in this C program snippet:</p>
+          <input type="text" class="treasure-input" placeholder="Enter variable name">
+          <button class="treasure-btn" onclick="checkTreasure('c', this)">Find Treasure</button>
+          <div class="treasure-result" id="c-result"></div>
+          <div class="hidden-treasure" id="c-treasure">
+            <p>🏆 <b>Treasure Found!</b> The variable <span id="c-var"></span> was never initialized! Always initialize your variables in C to avoid undefined behavior.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card animate">
+      <div class="course-header course-cpp">C++ Programming</div>
+      <img class="banner-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200'%3E%3Crect width='800' height='200' fill='%23a78bfa'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='white' text-anchor='middle' dy='0.35em'%3EC%2B%2B%3C/text%3E%3C/svg%3E" alt="C++">
+      <div class="course-body">
+        <p>Dive into OOP, templates, and STL with interactive diagrams and memory games.</p>
+        <div class="flowchart">
+          <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="30" r="20" fill="white" stroke="#a78bfa" stroke-width="2"/>
+            <text x="40" y="35" font-size="14" text-anchor="middle" fill="#a78bfa">Start</text>
+            <path d="M 60,30 L 95,30" fill="none" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <rect x="95" y="10" width="50" height="40" rx="5" fill="white" stroke="#a78bfa" stroke-width="2"/>
+            <text x="120" y="35" font-size="14" text-anchor="middle" fill="#a78bfa">Class</text>
+            <path d="M 145,30 L 180,30" fill="none" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <rect x="180" y="10" width="50" height="40" rx="5" fill="white" stroke="#a78bfa" stroke-width="2"/>
+            <text x="205" y="35" font-size="14" text-anchor="middle" fill="#a78bfa">Object</text>
+          </svg>
+        </div>
+        <div class="treasure-hunt">
+          <h3>Treasure Hunt: Hidden Inheritance</h3>
+          <p class="treasure-clue">Can you name a C++ access specifier? (e.g., "public")</p>
+          <input type="text" class="treasure-input" placeholder="Enter access specifier">
+          <button class="treasure-btn" onclick="checkTreasure('cpp', this)">Find Treasure</button>
+          <div class="treasure-result" id="cpp-result"></div>
+          <div class="hidden-treasure" id="cpp-treasure">
+            <p>🏆 <b>Treasure Found!</b> You unlocked the power of <span id="cpp-var"></span> inheritance! Use access specifiers wisely to control member visibility.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card animate">
+      <div class="course-header course-java">Java Programming</div>
+      <img class="banner-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200'%3E%3Crect width='800' height='200' fill='%23ff6b6b'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='white' text-anchor='middle' dy='0.35em'%3EJava%3C/text%3E%3C/svg%3E" alt="Java">
+      <div class="course-body">
+        <p>Build apps with Java’s platform independence, multithreading, and collections framework.</p>
+        <div class="flowchart">
+          <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="60" height="40" rx="5" fill="white" stroke="#ff6b6b" stroke-width="2"/>
+            <text x="40" y="35" font-size="14" text-anchor="middle" fill="#ff6b6b">Main</text>
+            <path d="M 70,30 L 95,30 L 95,70 L 40,70 L 40,50 L 10,50" fill="none" stroke="#ff6b6b" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <rect x="10" y="50" width="60" height="20" rx="3" fill="white" stroke="#ff6b6b" stroke-width="2"/>
+            <text x="40" y="62" font-size="12" text-anchor="middle" fill="#ff6b6b">Method</text>
+          </svg>
+        </div>
+        <div class="treasure-hunt">
+          <h3>Treasure Hunt: JVM Mystery</h3>
+          <p class="treasure-clue">What does JVM stand for? (Hint: Java ______ Machine)</p>
+          <input type="text" class="treasure-input" placeholder="Enter answer">
+          <button class="treasure-btn" onclick="checkTreasure('java', this)">Find Treasure</button>
+          <div class="treasure-result" id="java-result"></div>
+          <div class="hidden-treasure" id="java-treasure">
+            <p>🏆 <b>Treasure Found!</b> Correct! The Java Virtual Machine (JVM) runs your bytecode on any platform.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card animate">
+      <div class="course-header course-python">Python Programming</div>
+      <img class="banner-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200'%3E%3Crect width='800' height='200' fill='%238cd93a'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='white' text-anchor='middle' dy='0.35em'%3EPython%3C/text%3E%3C/svg%3E" alt="Python">
+      <div class="course-body">
+        <p>Code games, web apps, and AI models with Python’s simple syntax and powerful libraries.</p>
+        <div class="flowchart">
+          <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 20,30 Q 50,10 80,30 Q 110,50 80,70 Q 50,90 20,70 Q 10,50 20,30 Z" fill="white" stroke="#8cd93a" stroke-width="2"/>
+            <text x="50" y="50" font-size="14" text-anchor="middle" fill="#8cd93a">Function</text>
+            <path d="M 82,50 Q 95,50 110,50" fill="none" stroke="#8cd93a" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <path d="M 110,30 Q 140,10 170,30 Q 200,50 170,70 Q 140,90 110,70 L 110,50" fill="none" stroke="#8cd93a" stroke-width="2" stroke-dasharray="4,4"/>
+            <text x="140" y="50" font-size="12" text-anchor="middle" fill="#8cd93a">Loop</text>
+          </svg>
+        </div>
+        <div class="treasure-hunt">
+          <h3>Treasure Hunt: Pythonic Secret</h3>
+          <p class="treasure-clue">What Python keyword creates a loop? (Hint: for/while)</p>
+          <input type="text" class="treasure-input" placeholder="Enter Python keyword">
+          <button class="treasure-btn" onclick="checkTreasure('python', this)">Find Treasure</button>
+          <div class="treasure-result" id="python-result"></div>
+          <div class="hidden-treasure" id="python-treasure">
+            <p>🏆 <b>Treasure Found!</b> Nicely done! The <span id="python-var"></span> loop is a Pythonic way to iterate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card animate">
+      <div class="course-header course-dsa">Data Structures & Algorithms</div>
+      <img class="banner-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200'%3E%3Crect width='800' height='200' fill='%23ffd700'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='black' text-anchor='middle' dy='0.35em'%3EDSA%3C/text%3E%3C/svg%3E" alt="DSA">
+      <div class="course-body">
+        <p>Master arrays, linked lists, trees, graphs, sorting, and searching with animated visualizations.</p>
+        <div class="flowchart">
+          <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="10" width="40" height="40" fill="white" stroke="black" stroke-width="2"/>
+            <text x="40" y="35" font-size="14" text-anchor="middle" fill="black">Start</text>
+            <path d="M 60,30 L 100,30 M 100,30 L 100,70 M 100,70 L 140,70 M 140,70 L 140,30 M 140,30 L 180,30" fill="none" stroke="black" stroke-width="2"/>
+            <text x="100" y="20" font-size="14" text-anchor="middle" fill="black">Array</text>
+            <text x="140" y="60" font-size="14" text-anchor="middle" fill="black">List</text>
+            <path d="M 180,30 L 220,30" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="220" y="35" font-size="14" text-anchor="middle" fill="black">Tree</text>
+          </svg>
+        </div>
+        <div class="treasure-hunt">
+          <h3>Treasure Hunt: Algorithm Puzzle</h3>
+          <p class="treasure-clue">Which algorithm uses "divide and conquer"? (Hint: Merge/Quick)</p>
+          <input type="text" class="treasure-input" placeholder="Enter algorithm name">
+          <button class="treasure-btn" onclick="checkTreasure('dsa', this)">Find Treasure</button>
+          <div class="treasure-result" id="dsa-result"></div>
+          <div class="hidden-treasure" id="dsa-treasure">
+            <p>🏆 <b>Treasure Found!</b> The <span id="dsa-var"></span> Sort divides the problem into smaller subproblems — a classic DSA technique!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Fun Coding Academy | Animate your learning journey!</p>
+  </footer>
+
+  <script>
+    function checkTreasure(type, btn) {
+      const input = btn.parentNode.querySelector('.treasure-input').value.trim().toLowerCase();
+      const result = btn.parentNode.querySelector('.treasure-result');
+      const treasure = document.getElementById(${type}-treasure);
+      const varSpan = document.getElementById(${type}-var);
+      let found = false;
+      let message = '';
+
+      // Define treasure answers
+      const treasures = {
+        c: ['count', 'sum', 'total', 'i', 'x'],
+        cpp: ['public', 'private', 'protected'],
+        java: ['virtual'],
+        python: ['for', 'while'],
+        dsa: ['merge', 'quick']
+      };
+
+      if (treasures[type].includes(input)) {
+        found = true;
+        message = 'Correct! Treasure discovered!';
+        treasure.style.display = 'block';
+        if (varSpan) varSpan.textContent = input;
+      } else {
+        message = 'No treasure here... Try again!';
+        treasure.style.display = 'none';
+      }
+
+      result.textContent = message;
+      result.className = found ? 'treasure-result treasure-found' : 'treasure-result treasure-not-found';
+    }
+  </script>
+</body>
+</html>

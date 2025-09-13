@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Programming Mock Tests — C | C++ | Java | Python | DSA | C#</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --card:#fff; --accent:#0b5ed7; --muted:#6b7280;
+    --success:#0f9d58; --danger:#d2322d; --maxw:980px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:Inter, system-ui, Arial, sans-serif;
+    background:linear-gradient(180deg, #eef4ff 0%, var(--bg) 100%);
+    color:#102a43; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:18px}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between}
+  h1{font-size:1.25rem;margin:0}
+  p.lead{margin:6px 0 0;color:var(--muted);font-size:0.95rem}
+  .top{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  select, button{font-size:0.95rem;padding:8px 12px;border-radius:8px;border:1px solid #d7e1ef;background:var(--card)}
+  .start-btn{background:var(--accent);color:white;border:none}
+  main{display:flex;gap:18px;margin-top:18px;align-items:flex-start;flex-wrap:wrap}
+  .panel{background:var(--card);border-radius:12px;box-shadow:0 6px 18px rgba(10,30,60,0.06);padding:18px;flex:1 1 640px}
+  .sidebar{width:260px;flex:0 0 260px}
+  .meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .chip{padding:6px 10px;border-radius:999px;background:#eef4ff;color:var(--accent);font-weight:600}
+  .timer{font-weight:700;color:var(--danger)}
+  .q-number{font-weight:700;margin-bottom:8px}
+  .question{font-size:1.05rem;margin:8px 0 12px}
+  .options{display:flex;flex-direction:column;gap:8px}
+  .option label{display:flex;gap:10px;align-items:center;padding:10px;border-radius:8px;border:1px solid #e6eefc;cursor:pointer}
+  .option input{transform:scale(1.02)}
+  .controls{display:flex;gap:8px;margin-top:14px}
+  .controls button{flex:1}
+  .small{font-size:0.92rem;color:var(--muted)}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:0.9rem}
+  .results{padding:12px;border-radius:10px;background:linear-gradient(180deg,#f9ffef,#fff);border:1px solid #e6f5e8;color:var(--success);font-weight:700}
+  .review-list{margin-top:12px}
+  .review-item{padding:10px;border-radius:8px;border:1px solid #eef2ff;margin-bottom:8px;background:#fff}
+  .correct{color:var(--success);font-weight:700}
+  .incorrect{color:var(--danger);font-weight:700}
+  @media(max-width:900px){.sidebar{width:100%;flex-basis:100%}.panel{flex-basis:100%}.top{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Programming Mock Tests</h1>
+      <p class="lead">Practice MCQ mock tests for C, C++, Java, Python, DSA and C# — single file, no extensions.</p>
+    </div>
+    <div class="top">
+      <label class="small" for="topicSelect">Choose topic</label>
+      <select id="topicSelect" aria-label="Choose topic">
+        <option value="c">C Programming</option>
+        <option value="cpp">C++ Programming</option>
+        <option value="java">Java Programming</option>
+        <option value="python">Python Programming</option>
+        <option value="dsa">Data Structures & Algorithms (DSA)</option>
+        <option value="csharp">C# Programming</option>
+      </select>
+      <label class="small" for="timeLimit">Time (mins)</label>
+      <select id="timeLimit" aria-label="Time limit">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+      </select>
+      <button id="startBtn" class="start-btn">Start Test</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="testPanel" aria-live="polite">
+      <div id="introPanel">
+        <p class="small">Select a topic and press <strong>Start Test</strong>. Each test uses the sample question bank — you can edit the questions in the JS object inside this page.</p>
+      </div>
+
+      <div id="quizArea" style="display:none">
+        <div class="meta">
+          <div class="chip" id="topicChip">Topic</div>
+          <div class="chip">Q <span id="currentIdx">1</span>/<span id="totalQs">1</span></div>
+          <div class="chip">Time left: <span id="timerDisplay" class="timer">00:00</span></div>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="q-number small">Question <span id="qnum">1</span></div>
+          <div class="question" id="questionText">Question text</div>
+          <div class="options" id="optionsWrap" role="radiogroup" aria-labelledby="questionText"></div>
+
+          <div class="controls">
+            <button id="prevBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+            <button id="submitBtn" style="background:var(--accent);color:white">Submit Test</button>
+          </div>
+        </div>
+
+        <div id="afterSubmit" style="display:none;margin-top:12px">
+          <div class="results" id="scoreBox">Score: 0 / 0</div>
+          <div class="review-list" id="reviewList"></div>
+          <div style="margin-top:10px">
+            <button id="retryBtn">Retry Same Topic</button>
+            <button id="homeBtn">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar" aria-hidden="false">
+      <div class="panel" style="padding:12px">
+        <h3 style="margin:0 0 8px">Quick Controls</h3>
+        <p class="small">Jump to any question</p>
+        <div id="jumpGrid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+
+        <hr style="margin:12px 0">
+        <div class="small">Legend</div>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <div style="padding:6px 8px;border-radius:8px;background:#eef4ff;color:var(--accent)">Unanswered</div>
+          <div style="padding:6px 8px;border-radius:8px;background:#fff7ed;color:#a65b00">Answered</div>
+          <div style="padding:6px 8px;border-radius:8px;background:#fef2f2;color:var(--danger)">Marked Wrong</div>
+        </div>
+
+        <hr style="margin:12px 0">
+        <div class="small">Tips</div>
+        <ul class="small" style="padding-left:18px;margin-top:8px;color:var(--muted)">
+          <li>Use <strong>Next / Previous</strong> or jump grid to navigate.</li>
+          <li>Timer auto-submits when it reaches zero.</li>
+          <li>Edit or extend questions in the JS `QUESTION_BANK` object.</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+  <footer>
+    <small>&copy; 2025 Mock Tests — Single-file demo. Customize the question sets in the script.</small>
+  </footer>
+</div>
+<script>
+/*
+  Single-file Mock Test engine.
+  - Edit QUESTION_BANK below to change questions / options / answers.
+  - Each question object: {q:"", opts:[], answer: index}
+*/
+const QUESTION_BANK = {
+  c: [
+    { q: "Which header file is required for printf in C?", opts:["<conio.h>","<stdio.h>","<stdlib.h>","<math.h>"], answer:1 },
+    { q: "What is the output of: printf(\"%d\", 5/2);", opts:["2","2.5","3","Undefined"], answer:0 },
+    { q: "Which keyword is used to define a constant in C?", opts:["constant","#define","const","final"], answer:1 },
+    { q: "Who is known as the father of C Language?",opts: ["Bjarne Stroustrup ", "Dennis Ritchie", "James A. Gosling ", "Guido van Rossum "],answer:1},
+    { q:"Which of the following is not a valid C variable name?",opts:["_myVariable"," my_variable", "1stVariable" ,"MyVariable"] ,answer:2},
+    { q: "Which of the following is not a valid C data type?",opts: ["int", "float", "real", "char"],answer: 2 },
+    { q: "What is the size of an int data type (in most 32-bit compilers)?",opts: ["2 bytes", "4 bytes", "8 bytes", "Depends on the compiler"],answer: 1 },
+    { q: "Which of the following is the correct syntax to declare a pointer in C?",opts: ["int p;", "int *p;", "int &p;", "pointer p;"],answer: 1},
+    { q: "Which operator is used to access the value at the address stored in a pointer?",opts: ["&", "*", "->", "%"],answer: 1 },
+    { q: "Which of the following is not a valid storage class in C?",opts: ["auto", "register", "static", "dynamic"],answer: 3}
+  ],
+  cpp: [
+    { q: "Which of the following is used for dynamic memory allocation in C++?", opts:["malloc","new","alloc","memalloc"], answer:1 },
+    { q: "What is the correct way to declare a namespace?", opts:["namespace std;","using namespace std;","namespace::std","namespace { }"], answer:1 },
+    { q: "Which is a C++ feature not in C?", opts:["Structures","Function pointers","Classes","Switch-case"], answer:2 },
+    { q: "Which concept is not supported in C++?",opts: ["Encapsulation", "Polymorphism", "Garbage Collection", "Inheritance"],answer: 2},
+    { q: "Which of the following is used to define a class in C++?",opts: ["class", "struct", "object", "define"],answer: 0},
+    { q: "Which operator cannot be overloaded in C++?",opts: ["+", "=", "->", "?: (ternary)"],"answer": 3},
+    { q: "Which type of inheritance is not allowed in C++?",opts: ["Multiple", "Multilevel", "Hierarchical", "None of the above"],answer: 3 },
+    { q: "Which function is called automatically when an object goes out of scope?",opts: ["Constructor", "Destructor", "Virtual function", "Inline function"],answer: 1},
+    { q: "Which feature of OOP allows reusing existing code?",opts: ["Encapsulation", "Inheritance", "Polymorphism", "Abstraction"],answer: 1},
+    { q: "Which keyword is used to handle exceptions in C++?",opts: ["try", "catch", "throw", "All of the above"],answer: 3},
+  ],
+  java: [
+    { q: "Which keyword indicates runtime polymorphism in Java?", opts:["abstract","static","final","extends"], answer:0 },
+    { q: "Which of these is not a primitive type in Java?", opts:["int","String","char","boolean"], answer:1 },
+    { q: "What does JVM stand for?", opts:["Java Variable Machine","Java Virtual Machine","Java Visual Machine","Just Virtual Machine"], answer:1 },
+    { q: "Which keyword is used to inherit a class in Java?",opts: ["this", "super", "extends", "implements"],answer: 2},
+    { q: "Which of the following is not a primitive data type in Java?",opts: ["int", "float", "boolean", "string"],answer: 3},
+    { q: "Which method is the entry point of a Java program?",opts: ["start()", "main()", "init()", "run()"], answer: 1},
+    { q: "Which of the following does not support multiple inheritance?",opts: ["Class", "Interface", "Abstract class", "All of the above"],answer: 0},
+    { q: "Which package is imported by default in every Java program?",opts: ["java.lang", "java.util", "java.io", "None"], answer: 0},
+    { q: "Which of these is not a Java access modifier?",opts: ["public", "protected", "private", "friendly"],answer: 3},
+    { q: "Which exception is thrown when dividing by zero in Java?",opts: ["IOException", "ArithmeticException", "NullPointerException", "NumberFormatException"],answer: 1 }
+  ],
+  python: [
+    { q: "Which of these is the correct file extension for Python files?", opts:[".py", ".pt", ".p", ".python"], answer:0 },
+    { q: "What is the output of: print(type([])) ?", opts:["<class 'list'>","list","[]","<type 'list'>"], answer:0 },
+    { q: "Which statement is used to handle exceptions?", opts:["try/except","catch/throw","trap/catch","handle/except"], answer:0 },
+    { q: "Which of the following is not a valid Python variable name?","opts": ["_var", "var1", "1var", "var_2"],"answer": 2 },
+    { q: "Which of the following is the correct file extension for Python files?", "opts": [".py", ".python", ".pt", ".pyt"], "answer": 0},
+    { q: "What is the output of type([])?","opts": ["list", "dict", "tuple", "set"],"answer": 0},
+    { q: "Which keyword is used to define a function in Python?","opts": ["func", "function", "def", "lambda"],"answer": 2},
+    { q: "Which of these is immutable in Python?","opts": ["list", "set", "tuple", "dict"],"answer": 2 },
+    { q: "Which operator is used for exponentiation in Python?","opts": ["^", "**", "//", "%"],"answer": 1 },
+    { q: "What is the default return type of a function that has no return statement in Python?","opts": ["0", "None", "False", "Undefined"], "answer": 1}
+  ],
+  dsa: [
+    { q: "What is the time complexity of binary search on a sorted array?", opts:["O(n)","O(log n)","O(n log n)","O(1)"], answer:1 },
+    { q: "Which data structure uses FIFO order?", opts:["Stack","Queue","Tree","Graph"], answer:1 },
+    { q: "Which traversal gives nodes in non-decreasing order for BST?", opts:["Preorder","Postorder","Level order","Inorder"], answer:3 },
+    { q: "Which of the following is not a linear data structure?",opts: ["Array", "Linked List", "Stack", "Tree"],answer: 3},
+    { q: "What is the time complexity of binary search?",opts: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],answer: 1},
+    { q: "Which data structure works on the principle of FIFO?",opts: ["Stack", "Queue", "Tree", "Graph"],answer: 1},
+    { q: "Which traversal of a binary tree visits nodes in Left-Root-Right order?",opts: ["Preorder", "Inorder", "Postorder", "Level order"],answer: 1},
+    { q: "Which sorting algorithm has the best average case time complexity?",opts: ["Bubble Sort", "Insertion Sort", "Merge Sort", "Selection Sort"],answer: 2 },
+    { q: "Which data structure is used in recursion?",opts: ["Queue", "Stack", "Array", "Graph"],answer: 1},
+    { q: "Which graph traversal uses a queue?",opts: ["DFS", "BFS", "Both", "None"],answer: 1}
+  ],
+  csharp: [
+    { q: "Which of these is the entry point for a C# console application?", opts:["start()","Main()","Begin()","Execute()"], answer:1 },
+    { q: "Which keyword declares a value type in C#?", opts:["class","struct","object","interface"], answer:1 },
+    { q: "Which is used for asynchronous programming in C#?", opts:["async/await","defer","background","thread"], answer:0 },
+    { q: "Which of the following is the root namespace in C#?",opts: ["System", "Main", "Csharp", "Microsoft"],answer: 0},
+    { q: "Which keyword is used to define a class in C#?",opts: ["class", "struct", "def", "object"],answer: 0},
+    { q: "Which of the following is not a value type in C#?",opts: ["int", "float", "string", "bool"],answer: 2},
+    { q: "Which symbol is used for single-line comments in C#?",opts: ["//", "#", "--", "%%"],answer: 0},
+    { q: "Which method is the entry point of a C# program?",opts: ["run()", "start()", "Main()", "execute()"],answer: 2},
+    { q: "Which of the following is not an access modifier in C#?",opts: ["public", "private", "internal", "friendly"],answer: 3},
+    { q: "Which of these is used for exception handling in C#?",opts: ["try-catch", "error-catch", "throw-except", "exception-handling"],answer: 0 }
+  ]
+};
+
+/* State */
+let state = {
+  topic: 'c',
+  timeLimitMins: 10,
+  questions: [],
+  answers: [], // user's selected option indices or null
+  current: 0,
+  timerSec: 0,
+  timerId: null,
+  submitted: false
+};
+
+/* DOM refs */
+const topicSelect = document.getElementById('topicSelect');
+const timeLimit = document.getElementById('timeLimit');
+const startBtn = document.getElementById('startBtn');
+const testPanel = document.getElementById('testPanel');
+const quizArea = document.getElementById('quizArea');
+const topicChip = document.getElementById('topicChip');
+const currentIdx = document.getElementById('currentIdx');
+const totalQs = document.getElementById('totalQs');
+const qnum = document.getElementById('qnum');
+const questionText = document.getElementById('questionText');
+const optionsWrap = document.getElementById('optionsWrap');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const submitBtn = document.getElementById('submitBtn');
+const timerDisplay = document.getElementById('timerDisplay');
+const jumpGrid = document.getElementById('jumpGrid');
+const afterSubmit = document.getElementById('afterSubmit');
+const scoreBox = document.getElementById('scoreBox');
+const reviewList = document.getElementById('reviewList');
+const introPanel = document.getElementById('introPanel');
+const startPanel = document.getElementById('introPanel');
+const retryBtn = document.getElementById('retryBtn');
+const homeBtn = document.getElementById('homeBtn');
+
+/* Utility */
+function pad(n){return n<10? '0'+n : ''+n}
+
+/* Initialize start */
+startBtn.addEventListener('click', ()=> {
+  state.topic = topicSelect.value;
+  state.timeLimitMins = parseInt(timeLimit.value,10) || 10;
+  startTest();
+});
+
+/* Start test */
+function startTest(){
+  const bank = QUESTION_BANK[state.topic] || [];
+  state.questions = JSON.parse(JSON.stringify(bank)); // deep copy
+  state.answers = Array(state.questions.length).fill(null);
+  state.current = 0;
+  state.submitted = false;
+  state.timerSec = state.timeLimitMins * 60;
+  renderQuiz();
+  startTimer();
+  introPanel.style.display = 'none';
+  quizArea.style.display = '';
+  afterSubmit.style.display = 'none';
+  buildJumpGrid();
+}
+
+/* Timer */
+function startTimer(){
+  if(state.timerId) clearInterval(state.timerId);
+  updateTimerDisplay();
+  state.timerId = setInterval(()=>{
+    state.timerSec--;
+    if(state.timerSec<=0){
+      clearInterval(state.timerId);
+      autoSubmit();
+    }
+    updateTimerDisplay();
+  },1000);
+}
+function updateTimerDisplay(){
+  const mm = Math.floor(state.timerSec/60);
+  const ss = state.timerSec % 60;
+  timerDisplay.textContent = pad(mm)+":"+pad(ss);
+}
+
+/* Render quiz */
+function renderQuiz(){
+  topicChip.textContent = topicSelect.options[topicSelect.selectedIndex].text;
+  currentIdx.textContent = state.current + 1;
+  totalQs.textContent = state.questions.length;
+  qnum.textContent = state.current + 1;
+  const qObj = state.questions[state.current];
+  questionText.textContent = qObj ? qObj.q : "No question";
+  optionsWrap.innerHTML = '';
+  if(!qObj) return;
+  qObj.opts.forEach((opt, idx) => {
+    const id = `opt-${state.current}-${idx}`;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'option';
+    const label = document.createElement('label');
+    label.setAttribute('for', id);
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'option';
+    radio.id = id;
+    radio.value = idx;
+    radio.checked = state.answers[state.current] === idx;
+    radio.addEventListener('change', ()=> {
+      state.answers[state.current] = idx;
+      updateJumpGridButton(state.current);
+    });
+    const span = document.createElement('span');
+    span.textContent = opt;
+    label.appendChild(radio);
+    label.appendChild(span);
+    wrapper.appendChild(label);
+    optionsWrap.appendChild(wrapper);
+  });
+  // Next / Prev enable
+  prevBtn.disabled = state.current === 0;
+  nextBtn.disabled = state.current >= state.questions.length - 1;
+  currentIdx.textContent = state.current + 1;
+}
+
+/* Navigation */
+prevBtn.addEventListener('click', ()=> {
+  if(state.current>0){ state.current--; renderQuiz(); }
+});
+nextBtn.addEventListener('click', ()=> {
+  if(state.current < state.questions.length-1){ state.current++; renderQuiz(); }
+});
+
+/* Submit */
+submitBtn.addEventListener('click', ()=> {
+  if(confirm('Submit test now?')) doSubmit();
+});
+
+function autoSubmit(){
+  if(state.submitted) return;
+  alert('Time is up — auto-submitting your test.');
+  doSubmit();
+}
+
+function doSubmit(){
+  state.submitted = true;
+  clearInterval(state.timerId);
+  // Score
+  let score = 0;
+  const total = state.questions.length;
+  reviewList.innerHTML = '';
+  state.questions.forEach((q, i) => {
+    const user = state.answers[i];
+    const correct = q.answer;
+    if(user === correct) score++;
+    const div = document.createElement('div');
+    div.className = 'review-item';
+    const head = document.createElement('div');
+    head.innerHTML = `<strong>Q${i+1}:</strong> ${q.q}`;
+    const your = document.createElement('div');
+    your.className = 'small';
+    your.innerHTML = `Your answer: ${ user === null ? '<em>Unanswered</em>' : q.opts[user] }`;
+    const cor = document.createElement('div');
+    cor.className = 'small';
+    cor.innerHTML = `Correct: ${q.opts[correct]}`;
+    if(user === correct) cor.style.color = 'var(--success)';
+    else cor.style.color = 'var(--danger)';
+    div.appendChild(head);
+    div.appendChild(your);
+    div.appendChild(cor);
+    reviewList.appendChild(div);
+  });
+  scoreBox.textContent = `Score: ${score} / ${total}`;
+  quizArea.querySelector('#afterSubmit').style.display = 'block';
+  afterSubmit.style.display = '';
+  // hide question area
+  optionsWrap.style.opacity = 0.6;
+  submitBtn.disabled = true;
+}
+
+/* Jump grid */
+function buildJumpGrid(){
+  jumpGrid.innerHTML = '';
+  for(let i=0;i<state.questions.length;i++){
+    const b = document.createElement('button');
+    b.textContent = i+1;
+    b.style.minWidth = '38px';
+    b.style.padding = '6px 8px';
+    b.style.borderRadius = '8px';
+    b.style.border = '1px solid #e6eefc';
+    b.dataset.idx = i;
+    b.addEventListener('click', ()=> {
+      state.current = i;
+      renderQuiz();
+    });
+    jumpGrid.appendChild(b);
+  }
+  updateAllJumpButtons();
+}
+function updateJumpGridButton(i){
+  const btns = jumpGrid.querySelectorAll('button');
+  const b = btns[i];
+  if(!b) return;
+  if(state.answers[i] !== null){
+    b.style.background = '#fff7ed';
+    b.style.borderColor = '#f5d6a5';
+  } else {
+    b.style.background = '#eef4ff';
+    b.style.borderColor = '#d9eaff';
+  }
+}
+function updateAllJumpButtons(){
+  for(let i=0;i<state.questions.length;i++) updateJumpGridButton(i);
+}
+
+/* Retry and Home */
+retryBtn.addEventListener('click', ()=> {
+  // reset answers and timer, keep same topic
+  state.answers = Array(state.questions.length).fill(null);
+  state.current = 0;
+  state.submitted = false;
+  state.timerSec = state.timeLimitMins * 60;
+  submitBtn.disabled = false;
+  optionsWrap.style.opacity = 1;
+  afterSubmit.style.display = 'none';
+  renderQuiz();
+  buildJumpGrid();
+  startTimer();
+});
+homeBtn.addEventListener('click', ()=> {
+  // go back to start
+  clearInterval(state.timerId);
+  quizArea.style.display = 'none';
+  introPanel.style.display = '';
+  afterSubmit.style.display = 'none';
+});
+
+/* Accessibility: keyboard navigation (left/right) */
+document.addEventListener('keydown', (e)=>{
+  if(quizArea.style.display === 'none') return;
+  if(e.key==='ArrowLeft') prevBtn.click();
+  if(e.key==='ArrowRight') nextBtn.click();
+  if(e.key==='Enter' && (document.activeElement.tagName!=='INPUT')) submitBtn.click();
+});
+
+/* Initialize preview (not running test) */
+(function initPreview(){
+  // show a short sample of default topic
+  topicChip.textContent = topicSelect.options[topicSelect.selectedIndex].text;
+  document.getElementById('totalQs').textContent = QUESTION_BANK[topicSelect.value].length;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Smart Education Community - Upload & Chat</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin:0; padding:0;
+    background: #f4f7fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background: #0056b3;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  main {
+    flex: 1;
+    max-width: 900px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  section {
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    color: #0056b3;
+    margin-bottom: 12px;
+  }
+
+  /* Upload form */
+  #uploadSection input[type="file"] {
+    margin-bottom: 10px;
+  }
+  #uploadSection button {
+    background: #007BFF;
+    color: white; border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  #uploadSection button:hover {
+    background: #0056b3;
+  }
+  #uploadedFiles {
+    margin-top: 15px;
+    max-height: 120px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.95rem;
+    background: #f9fbff;
+  }
+  #uploadedFiles p {
+    margin: 6px 0;
+    word-break: break-word;
+  }
+
+  /* Chat box */
+  #chatSection {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+  }
+  #chatMessages {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow-y: auto;
+    padding: 12px;
+    background: #f9fbff;
+    font-size: 0.95rem;
+  }
+  .message {
+    margin-bottom: 12px;
+  }
+  .message strong {
+    color: #0056b3;
+  }
+  #chatInputArea {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+  }
+  #chatInput {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  #sendBtn {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  #sendBtn:hover {
+    background: #0056b3;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 15px;
+    background: #f1f1f5;
+    color: #444;
+  }
+
+  /* Responsive */
+  @media(max-width: 600px){
+    main {
+      margin: 10px 15px;
+      padding: 15px;
+    }
+  }
+  a
+  {
+      text-decoration: none;
+      color:whitesmoke;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Smart Education Global Community</h1>
+  <p>Upload your doubts and chat with peers and tutors</p>
+</header>
+
+<main>
+  <section id="uploadSection">
+    <h2>Upload Your Doubts / Notes</h2>
+    <input type="file" id="fileInput" multiple />
+    <button onclick="uploadFiles()"><a href="index41.html">Upload Files</a></button>
+    <div id="uploadedFiles"></div>
+  </section>
+
+  <section id="chatSection">
+    <h2>Community Doubts Chat</h2>
+    <div id="chatMessages" aria-live="polite" aria-label="Chat messages"></div>
+    <div id="chatInputArea">
+      <input type="text" id="chatInput" placeholder="type questions..." aria-label="Chat input" />
+      <button id="sendBtn" onclick="sendMessage()"><a href="index41.html">Send</a></button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 Smart Education Global Community
+</footer>
+
+<script>
+  const uploadedFilesDiv = document.getElementById('uploadedFiles');
+  const chatMessagesDiv = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+
+  let uploadedFiles = [];
+  let chatMessages = [];
+
+  // Upload file handling
+  function uploadFiles() {
+    const files = document.getElementById('fileInput').files;
+    if (!files.length) {
+      alert('Please select at least one file to upload.');
+      return;
+    }
+    for (const file of files) {
+      uploadedFiles.push({
+        name: file.name,
+        sizeKB: (file.size / 1024).toFixed(2)
+      });
+    }
+    updateUploadedFilesUI();
+    document.getElementById('fileInput').value = '';  // reset input
+  }
+
+  function updateUploadedFilesUI() {
+    if (!uploadedFiles.length) {
+      uploadedFilesDiv.innerHTML = '<p>No files uploaded yet.</p>';
+      return;
+    }
+    uploadedFilesDiv.innerHTML = uploadedFiles.map(f =>
+      `<p><strong>${f.name}</strong> - ${f.sizeKB} KB</p>`
+    ).join('');
+  }
+
+  // Chat message handling
+  function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) {
+      return;
+    }
+    const message = {
+      user: 'You',
+      text: text,
+      time: new Date().toLocaleTimeString()
+    };
+    chatMessages.push(message);
+    updateChatUI();
+    chatInput.value = '';
+    chatInput.focus();
+
+    // Auto-reply simulation by "Tutor" after 1.5 sec
+    setTimeout(() => {
+      const reply = {
+        user: 'Tutor Bot',
+        text: generateAutoReply(text),
+        time: new Date().toLocaleTimeString()
+      };
+      chatMessages.push(reply);
+      updateChatUI();
+    }, 1500);
+  }
+
+  function updateChatUI() {
+    chatMessagesDiv.innerHTML = chatMessages.map(msg =>
+      `<div class="message"><strong>${msg.user}:</strong> ${msg.text} <small style="color:#666;">(${msg.time})</small></div>`
+    ).join('');
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+  }
+
+  // Simple auto-reply logic for demo
+  function generateAutoReply(userText) {
+    const lowerText = userText.toLowerCase();
+    if (lowerText.includes('hello') || lowerText.includes('hi')) {
+      return 'Hello! How can I help you today?';
+    }
+    if (lowerText.includes('javascript')) {
+      return 'JavaScript is a versatile language. What specifically do you want to know?';
+    }
+    if (lowerText.includes('exam') || lowerText.includes('test')) {
+      return 'Make sure to practice past papers and manage your time well!';
+    }
+    return 'Thanks for your question. Our tutors will get back to you soon.';
+  }
+
+  // Initialize UI
+  updateUploadedFilesUI();
+  updateChatUI();
+</script>
+
+</body>
+</html>

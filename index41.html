@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Connect Hub</title>
+    <style>
+        :root {
+            --primary: #646cff;
+            --accent: #ff6e6c;
+            --success: #30d5c8;
+            --bg-light: #f8f8ff;
+            --bg-dark: #1a1a2e;
+            --shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.15);
+            --border-radius: 14px;
+            --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-light), #f0f0ff);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-dark);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2rem;
+            margin: 1rem 0 0.5rem;
+        }
+        .header p {
+            color: #5a6378;
+            margin-top: 0;
+        }
+        .tutor-cards {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        .tutor-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.8rem 2rem;
+            text-align: center;
+            max-width: 320px;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tutor-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow);
+        }
+        .tutor-card h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        .feature-icon {
+            font-size: 3.2rem;
+            margin: 0.5rem 0;
+            color: var(--accent);
+        }
+        .tutor-card p {
+            margin: 1rem 0 1.6rem;
+            color: #5a6378;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 12px -2px rgba(100, 108, 255, 0.25);
+        }
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 18px -3px rgba(100, 108, 255, 0.3);
+            opacity: 0.95;
+        }
+        .btn.live {
+            background:linear-gradient(45deg,var(--primary),var(--accent));
+            box-shadow: 0 4px 12px -2px rgba(48, 213, 200, 0.25);
+        }
+        .btn.live:hover {
+            box-shadow: 0 6px 18px -3px rgba(48, 213, 200, 0.3);
+        }
+        .chat-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(6px);
+        }
+        .chat-container.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .chat-box {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-box.show {
+            transform: translateY(0);
+        }
+        .chat-header {
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .message {
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .incoming {
+            background: #f0f0f5;
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+        .outgoing {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+        .chat-input {
+            display: flex;
+            padding: 0.8rem;
+            background: #f7f7ff;
+            border-top: 1px solid #e0e0e5;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+        }
+        .send-btn {
+            margin-left: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .send-btn:hover {
+            background: var(--accent);
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .typing {
+            font-style: italic;
+            color: #888;
+            margin: 0.5rem 0 0.5rem 1rem;
+        }
+        a{
+            text-decoration: none;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Get Tutor Support</h1>
+        <p>Connect instantly to a Meta AI tutor or a live expert—right here!</p>
+    </div>
+
+    <div class="tutor-cards">
+        <div class="tutor-card">
+            <div class="feature-icon">🤖</div>
+            <h2>Meta AI Tutor</h2>
+            <p>Ask questions, get instant explanations, and practice with interactive AI.</p>
+            <button class="btn ai-tutor"><a href="https://www.meta.ai/">Chat with Meta AI</a></button>
+        </div>
+
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header" id="chatHeader">
+                <span id="headerText">AI Tutor Chat</span>
+                <button class="close-btn" id="closeChat">✕</button>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="typing" id="typingIndicator" style="display: none;">Tutor is typing...</div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Type your question...">
+                <button class="send-btn" id="sendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatBox = document.getElementById('chatBox');
+            const chatHeader = document.getElementById('headerText');
+            const closeChat = document.getElementById('closeChat');
+            const chatMessages = document.getElementById('chatMessages');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const typingIndicator = document.getElementById('typingIndicator');
+            const aiBtn = document.querySelector('.ai-tutor');
+            const liveBtn = document.querySelector('.live-tutor');
+            let chatMode = 'ai';
+            let messageCount = 0;
+            let aiGreetings = [
+                "Hello! I'm your Meta AI Tutor. What would you like to learn today?",
+                "How can I help you? You can ask about any programming topic or get help with homework.",
+                "Let me know your question or topic, and I'll explain it step-by-step."
+            ];
+            let liveGreetings = [
+                "Connecting you to a live tutor... (simulated)",
+                "While you wait, tell me a bit about what you need help with.",
+                "A tutor will join you shortly!"
+            ];
+            let aiReplies = [
+                "Great question! Let me explain...",
+                "Here's how it works in code:",
+                "Try this exercise:",
+                "Let me draw a quick diagram to show this concept.",
+                "Check out this real-world example:"
+            ];
+            let liveReplies = [
+                "I'm reviewing your question with the tutor now...",
+                "The tutor suggests:",
+                "Your live tutor says:",
+                "Here's a tip from your tutor:",
+                "Let's try a practice problem together with your tutor."
+            ];
+
+            function addMessage(text, incoming) {
+                const message = document.createElement('div');
+                message.className = message $ {incoming ? 'incoming' : 'outgoing'};
+                message.textContent = text;
+                chatMessages.appendChild(message);
+                chatMessages.scrollTop = chatMessages.scrollTopMax || chatMessages.scrollHeight;
+            }
+
+            function showChat(mode) {
+                chatMode = mode;
+                chatHeader.textContent = mode === 'ai' ? 'AI Tutor Chat' : 'Live Tutor Chat';
+                chatContainer.classList.add('show');
+                setTimeout(() => chatBox.classList.add('show'), 10);
+                if (chatMessages.children.length === 0) {
+                    addMessage(mode === 'ai' ? aiGreetings[messageCount % aiGreetings.length] : liveGreetings[messageCount % liveGreetings.length], true);
+                }
+            }
+
+            function closeChatModal() {
+                chatBox.classList.remove('show');
+                setTimeout(() => chatContainer.classList.remove('show'), 300);
+            }
+
+            function sendMessage() {
+                const text = userInput.value.trim();
+                if (!text) return;
+                addMessage(text, false);
+                userInput.value = '';
+                typingIndicator.style.display = 'block';
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    messageCount++;
+                    let reply;
+                    if (chatMode === 'ai') {
+                        reply = aiReplies[messageCount % aiReplies.length];
+                    } else {
+                        reply = liveReplies[messageCount % liveReplies.length];
+                    }
+                    addMessage(reply, true);
+                }, 1000 + Math.random() * 2000);
+            }
+
+            aiBtn.addEventListener('click', () => showChat('ai'));
+            liveBtn.addEventListener('click', () => showChat('live'));
+            closeChat.addEventListener('click', closeChatModal);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+            sendBtn.addEventListener('click', sendMessage);
+        });
+    </script>
+</body>
+</html>

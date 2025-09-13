@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Programming Full Course</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: whitesmoke;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: whitesmoke;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      color: #e65100;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: whitesmoke;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .thumbnail {
+      aspect-ratio: 16/9;
+      background: peachpuff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e65100;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .card h2 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: #333;
+    }
+    .card p {
+      font-size: 14px;
+      color: #555;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 100%;
+      padding: 20px;
+      position: relative;
+    }
+    .modal-content iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 8px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      color: peru;
+    }
+    .close-btn:hover {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Java Programming Full Course</h1>
+    <p>Video Sessions</p>
+  </header>
+
+  <div class="container" id="videoContainer"></div>
+
+  <div class="modal" id="videoModal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <iframe id="videoFrame" src="" allowfullscreen></iframe>
+      <h2 id="videoTitle"></h2>
+      <p id="videoDesc"></p>
+      <small id="videoDuration"></small>
+    </div>
+  </div>
+
+  <script>
+    const videos = [
+      { id: 1, title: "Session-1", desc: "Basics of Java and its applications.", link: "https://www.youtube.com/embed/grEKMHGYyns" },
+      { id: 2, title: "Session-2",  desc: "Understanding variables, constants and data types.", link: "https://www.youtube.com/embed/GoXwIVyNvX0" },
+      { id: 3, title: "Session-3", desc: "Exploring arithmetic, relational and logical operators.", link: "https://www.youtube.com/embed/TH5yL4_-Yk0" },
+      { id: 4, title: "Session-4", desc: "If-else, switch and loops in Java.", link: "https://www.youtube.com/embed/8cm1x4bC610" },
+      { id: 5, title: "Session-5",  desc: "Defining and calling methods.", link: "https://www.youtube.com/embed/LusTv0RlnSU" },
+      { id: 6, title: "Session-6", desc: "Classes, objects and OOP principles.", link: "https://www.youtube.com/embed/8cm1x4bC610" },
+      { id: 7, title: "Session-7", desc: "Understanding arrays and multi-dimensional arrays.", link: "https://www.youtube.com/embed/0r1SfRoLuzU" },
+      { id: 8, title: "Session-8", desc: "Exploring OOP concepts of inheritance and polymorphism.", link: "https://www.youtube.com/embed/hBh_CC5y8-s" },
+      { id: 9, title: "Session-9", desc: "Try-catch, throw, throws and finally.", link: "https://www.youtube.com/embed/WEghIXs8F6c" },
+      { id: 10, title: "Session-10",  desc: "Reading and writing files using Java.", link: "https://www.youtube.com/embed/1s7QZR7shFs" },
+    ];
+
+    const container = document.getElementById("videoContainer");
+    const modal = document.getElementById("videoModal");
+    const videoFrame = document.getElementById("videoFrame");
+    const videoTitle = document.getElementById("videoTitle");
+    const videoDesc = document.getElementById("videoDesc");
+    const closeModal = document.getElementById("closeModal");
+
+    videos.forEach(video => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="thumbnail">▶</div>
+        <h2>${video.title}</h2>
+        <p> ${video.desc}</p>
+      `;
+      card.onclick = () => {
+        modal.style.display = "flex";
+        videoFrame.src = video.link;
+        videoTitle.innerText = video.title;
+        videoDesc.innerText = video.desc;
+      };
+      container.appendChild(card);
+    });
+
+    closeModal.onclick = () => {
+      modal.style.display = "none";
+      videoFrame.src = "";
+    };
+
+    window.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+        videoFrame.src = "";
+      }
+    };
+  </script>
+</body>
+</html>
